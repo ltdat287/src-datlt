@@ -1,0 +1,109 @@
+
+h1 {
+	padding: 0;
+	margin: 0;
+	font-size: 22px;
+}
+
+h1 a {
+	text-decoration: none;
+	color: #000;
+}
+
+h2 {
+	font-size: 22px;
+}
+
+header { 
+	background-color: #eee;
+}
+
+section {
+	margin: 10px;
+}
+
+section.contents {
+	margin-left: 20px;
+}
+
+footer {
+	padding: 20px;
+	background-color: #eee;
+}
+
+.relative {
+	position: relative;
+}
+
+.force-right {
+	height: 10px;
+	position: absolute;
+	right: 0;
+}
+
+.error-box {
+	padding: 10px;
+	line-height: 1.4em;
+	color: red;
+}
+
+.error-box > h3 {
+	font-size: 22px;
+	padding: 0;
+	margin: 0;
+}
+
+.error-box > ul {
+	padding: 10px;
+	border: solid medium red;
+	display: inline-block;
+	list-style-type: none;
+}
+
+.error-message {
+	color: red;
+}
+
+.button-success,
+.button-error,
+.button-warning,
+.button-secondary {
+	color: white;
+	border-radius: 4px;
+	text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+}
+
+.button-success {
+	background: rgb(28, 184, 65); /* this is a green */
+}
+
+.button-error {
+	background: rgb(202, 60, 60); /* this is a maroon */
+}
+
+.button-warning {
+	background: rgb(223, 117, 20); /* this is an orange */
+}
+
+.button-secondary {
+	background: rgb(66, 184, 221); /* this is a light blue */
+}
+
+.pure-table tbody th {
+	background-color: #e0e0e0;
+	color: #000;
+	text-align: left;
+	vertical-align: middle;
+	aligin: right;
+	font-weight: normal;
+	white-space: nowrap;
+}
+
+.pure-table-bordered th {
+	white-space: nowrap;
+	border-bottom: 1px solid #cbcbcb;
+}
+
+.pure-table tbody th.error-cell {
+	background-color: red;
+}
