@@ -26,7 +26,7 @@ class CheckUserDisabled
         } else {
             return redirect('/');
         }
-        
+
         return $next($request);
     }
 }

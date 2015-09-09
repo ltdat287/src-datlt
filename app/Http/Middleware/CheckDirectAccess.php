@@ -19,9 +19,10 @@ class CheckDirectAccess
         // Check permission delete current user.
         if (MemberHelper::checkLogin()->id == $request->id) {
             $errors[] = sprintf(trans('validation.not_direct_access'));
+
             return view('errors.system_error')->with('errors', $errors);
         }
-        
+
         return $next($request);
     }
 }

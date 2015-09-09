@@ -23,6 +23,8 @@ return [
     'exists_employ_child'  => '参照データに部下が残っています。',
     'not_match_email'      => 'これらの資格情報は、当社の記録と一致しません。',
     'required_if'          => ':attributeを設定する場合、権限は従業員を選択する必要があります。',
+    'attribute_exists'     => '必須入力項目：%sが入力されていません。',
+    'date_format'          => ':attributeはYYYY-mm-dd形式で入力してください。',
 
     /**
      * Change attribute from name of input to placeholder
@@ -40,6 +42,9 @@ return [
         'end_date'           => '生年月日（終了日)',
         'boss_id'            => 'BOSS',
         'use_role'           => '権限',
+        'admin'              => '権限（管理者）',
+        'boss'               => '権限（BOSS）',
+        'employee'           => '権限（従業員）'
     ],
 
     'custom' => [
@@ -51,6 +56,7 @@ return [
         ],
         'use_role' => [
             'employee_to_boss' => ':attributeをBOSS以外にするためには、部下を全て解除する必要があります。',
+            'boss_to_employee' => ':attributeを従業員以外にするためには、BOSSで--を選択する必要があります。',
         ]
     ],
 ];

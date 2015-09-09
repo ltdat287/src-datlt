@@ -36,7 +36,7 @@ class UserAddFormRequest extends Request
             'use_role'           => 'required',
             'boss_id'            => 'boss_with_employee:use_role',
         ];
-        
+
         if (MemberHelper::getCurrentUserRole() == 'boss') {
             unset($valid['use_role']);
             unset($valid['boss_id']);

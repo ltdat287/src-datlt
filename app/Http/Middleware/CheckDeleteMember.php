@@ -20,22 +20,22 @@ class CheckDeleteMember
         if ($request->id)
         {
             $user = User::find($request->id);
-            
+
             $errors = array();
-            
+
             if (! $user)
             {
                 $errors[] = sprintf(trans('validation.user_not_exists'), $request->id);
                 return view('errors.system_error')->with('errors', $errors);
             }
-            
+
             // Check user has deleted.
             if ($user->disabled == true)
             {
                 $errors[] = sprintf(trans('validation.deleted_id'), $request->id);
                 return view('errors.system_error')->with('errors', $errors);
             }
-             
+
             // Check user want delete has child employ.
             if (count(User::where('boss_id', '=', $request->id)->get()))
             {
@@ -43,7 +43,7 @@ class CheckDeleteMember
                 return view('errors.system_error')->with('errors', $errors);
             }
         }
-        
+
         return $next($request);
     }
 }

@@ -49,7 +49,7 @@ class User extends Model implements AuthenticatableContract,
     }
     /**
      * Get bosses not disable from db.
-     * 
+     *
      * @return objects
      */
     public static function getBosses()

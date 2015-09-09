@@ -7,7 +7,7 @@ use Validator;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
-use App\Http\Requests\LoginFormRequest;
+use Illuminate\Http\Request;
 use Auth;
 
 class AuthController extends Controller
@@ -72,8 +72,8 @@ class AuthController extends Controller
     }
 
     /**
-     * [loginPath description]
-     * @return [type] [description]
+     * Set path to login
+     * @return url
      */
     public function loginPath()
     {
@@ -81,8 +81,8 @@ class AuthController extends Controller
     }
 
     /**
-     * [redirectPath description]
-     * @return [type] [description]
+     * Set redirect path after login
+     * @return url
      */
     public function redirectPath()
     {
@@ -90,14 +90,33 @@ class AuthController extends Controller
     }
 
     /**
-     * @param  LoginFormRequest
+     * @param  Method for post login
      * @return [type]
      */
-    public function postLogin(LoginFormRequest $request)
+    public function postLogin(Request $request)
     {
-        $this->validate($request, [
-            $this->loginUsername() => 'required', 'password' => 'required',
-        ]);
+        $rules = array(
+            'email' => 'sometimes|required|vp_email|max:255',
+            'password' => 'sometimes|required|between:8,32'
+        );
+
+        // Check exists of input login post form
+        foreach ($rules as $key => $value)
+        {
+            if (!$request->exists($key)) {
+                $errors[] = sprintf(trans('validation.attribute_exists'), trans('validation.attributes.' . $key));
+
+                return view('errors.system_error')->with('errors', $errors);
+            }
+        }
+        $validator = Validator::make($request->all(), $rules);
+
+        if ($validator->fails()) {
+
+                    return back()
+                    ->withErrors($validator)
+                    ->withInput();
+        }
 
         // If the class is using the ThrottlesLogins trait, we can automatically throttle
         // the login attempts for this application. We'll key this by the username and
@@ -128,10 +147,14 @@ class AuthController extends Controller
             ]);
     }
 
+    /**
+     * Set view logout and clear session auth login
+     * @return view logout
+     */
     public function getLogout()
     {
         Auth::logout();
-        
+
         return view ('auth.logout');
     }
 }

@@ -34,18 +34,21 @@ class UserEditFormRequest extends Request
             'note'               => 'required|min:1|max:300',
             'password'           => 'required|between:8,32',
             'use_role'           => 'required|employee_to_boss:boss_id',
-            'boss_id'            => 'boss_with_employee:use_role|required_if:use_role,employee',
+            'boss_id'            => 'boss_with_employee:use_role',
         ];
+
         if (MemberHelper::getCurrentUserRole() == 'employee') {
             unset($valid['email']);
             unset($valid['email_confirmation']);
             unset($valid['note']);
             unset($valid['use_role']);
         }
+
         if (MemberHelper::getCurrentUserRole() == 'boss') {
             unset($valid['use_role']);
             unset($valid['boss_id']);
         }
+        
         return $valid;
     }
 }

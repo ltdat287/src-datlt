@@ -18,20 +18,20 @@ class CheckIsManager
     {
         // Get current user
         $user = Auth::getUser();
-        
+
         // Check exist role.
         $role = $user->role;
         if (! $role)
         {
             return response('Unauthorized.', 401);
         }
-        
+
         // Only redirect if user not employ.
         if ($role == 'employee')
         {
             return redirect('/');
         }
-        
+
         return $next($request);
     }
 }

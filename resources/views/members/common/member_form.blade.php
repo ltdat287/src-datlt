@@ -3,7 +3,7 @@
 	<td>
 		<input type="text" name="name" value="{{ MemberHelper::getOld('name') }}" class="pure-input-1">
 		@if ($errors->has('name'))
-			@foreach ($errors->get('name') as $error ) 
+			@foreach ($errors->get('name') as $error )
 			<section class="error-message">{{ $error }}</section>
 			@endforeach
 		@endif
@@ -14,7 +14,7 @@
 	<td>
 		<input type="text" name="kana" value="{{ MemberHelper::getOld('kana') }}" class="pure-input-1">
 		@if ($errors->has('kana'))
-			@foreach ($errors->get('kana') as $error ) 
+			@foreach ($errors->get('kana') as $error )
 			<section class="error-message">{{ $error }}</section>
 			@endforeach
 		@endif
@@ -26,7 +26,7 @@
 	<td>
 	   <input type="text" name="email" value="{{ MemberHelper::getOld('email') }}" class="pure-input-1">
 		@if ($errors->has('email'))
-			@foreach ($errors->get('email') as $error ) 
+			@foreach ($errors->get('email') as $error )
 			<section class="error-message">{{ $error }}</section>
 			@endforeach
 		@endif
@@ -37,7 +37,7 @@
 	<td>
 	   <input type="text" name="email_confirmation" value="{{ MemberHelper::getOld('email_confirmation') }}" class="pure-input-1">
 		@if ($errors->has('email_confirmation'))
-			@foreach ($errors->get('email_confirmation') as $error ) 
+			@foreach ($errors->get('email_confirmation') as $error )
 			<section class="error-message">{{ $error }}</section>
 			@endforeach
 		@endif
@@ -49,7 +49,7 @@
 	<td>
 		<input type="text" name="telephone_no" value="{{ MemberHelper::getOld('telephone_no') }}" class="pure-input-1">
 		@if ($errors->has('telephone_no'))
-			@foreach ($errors->get('telephone_no') as $error ) 
+			@foreach ($errors->get('telephone_no') as $error )
 			<section class="error-message">{{ $error }}</section>
 			@endforeach
 		@endif
@@ -60,7 +60,7 @@
 	<td>
 		<input type="text" name="birthday" value="{{ MemberHelper::getOld('birthday') }}" class="pure-input-1">
 		@if ($errors->has('birthday'))
-			@foreach ($errors->get('birthday') as $error ) 
+			@foreach ($errors->get('birthday') as $error )
 			<section class="error-message">{{ $error }}</section>
 			@endforeach
 		@endif
@@ -72,7 +72,7 @@
 	<td>
 		<textarea name="note" class="pure-input-1">{{ MemberHelper::getOld('note') }}</textarea>
 		@if ($errors->has('note'))
-			@foreach ($errors->get('note') as $error ) 
+			@foreach ($errors->get('note') as $error )
 			<section class="error-message">{{ $error }}</section>
 			@endforeach
 		@endif
@@ -84,7 +84,7 @@
 	<td>
 		<input type="password" name="password" class="pure-input-1">
 		@if ($errors->has('password'))
-			@foreach ($errors->get('password') as $error ) 
+			@foreach ($errors->get('password') as $error )
 			<section class="error-message">{{ $error }}</section>
 			@endforeach
 		@endif
@@ -104,7 +104,7 @@
             @endforeach
 		</select>
 		@if ($errors->has('use_role'))
-			@foreach ($errors->get('use_role') as $error ) 
+			@foreach ($errors->get('use_role') as $error )
 			<section class="error-message">{{ $error }}</section>
 			@endforeach
 		@endif
@@ -120,7 +120,7 @@
 			@endforeach
 		</select>
 		@if ($errors->has('boss_id'))
-			@foreach ($errors->get('boss_id') as $error ) 
+			@foreach ($errors->get('boss_id') as $error )
 			<section class="error-message">{{ $error }}</section>
 			@endforeach
 		@endif

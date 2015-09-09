@@ -15,7 +15,7 @@
 @section('content')
 <section>
     @include('members.common.member_error', ['errors' => $errors])
-    
+
 	<form name="search" class="pure-form" method="get" action="{{ url('/search') }}">
 	<table class="pure-table pure-table-bordered">
 		<tbody>
@@ -53,7 +53,7 @@
 				</td>
 			</tr>
 			@endif
-			
+
 			<tr>
 				<td colspan="4" align="right">
 					@if (MemberHelper::getCurrentUserRole() == 'admin' OR MemberHelper::getCurrentUserRole() == 'boss')
@@ -65,13 +65,13 @@
 	</table>
 
 		@if (count($users))
-		
+
 	    	@include('members.common.member_paginate_top', ['users' => $users])
-	    	
+
 	    	@include('members.common.member_list', ['users' => $users])
-	    
+
 	    	@include('members.common.member_paginate_bottom', ['users' => $users])
-		
+
 		@endif
 
 	</form>
