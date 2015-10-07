@@ -20,7 +20,7 @@
 	<h2>@yield('content.h2')</h2>
 
 	@yield('content')
-	
+
 </section>
 
 @include('layout.common.footer')

@@ -18,7 +18,7 @@
 	<h3>System error</h3>
 	<ul>
 	@foreach ($errors as $error)
-    	<?php 
+    	<?php
         // Write error to log.
         Log::error($error);
         ?>

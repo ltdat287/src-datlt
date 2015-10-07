@@ -1,4 +1,4 @@
-<?php 
+<?php
     $isFirst = (($users->currentPage() - 1) == 0) ? 'pure-button-disabled' : '';
     $isLast = ($users->currentPage() == $users->lastPage()) ? 'pure-button-disabled' : '';
 ?>

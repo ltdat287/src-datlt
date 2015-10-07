@@ -18,7 +18,7 @@
 </tr>
 <tr>
 	<th>生年月日</th>
-	<?php 
+	<?php
 	   $birthday = new \Carbon($user->birthday);
 	?>
 	<td>{{ $birthday->format('Y/m/d') }}</td>
@@ -50,7 +50,7 @@
             @endif
         </tr>
     @endif
-    
+
     @if (MemberHelper::getCurrentUserRole() != 'employee' && isset($user->updated_at))
         <tr>
             <th>{{ trans('更新日時') }}</th>

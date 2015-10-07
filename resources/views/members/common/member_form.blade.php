@@ -99,7 +99,7 @@
                 @if ($user != null)
                 <option value="{{ $key }}" {{ ($user->role && $user->role == $key) ? "selected=selected" : '' }} >{{{ $value }}}</option>
                 @else
-                <option value="{{ $key }}" >{{{ $value }}}</option>
+                <option value="{{ $key }}" {{ (MemberHelper::getOld('use_role') == $key) ? "selected=selected" : '' }}>{{{ $value }}}</option>
                 @endif
             @endforeach
 		</select>

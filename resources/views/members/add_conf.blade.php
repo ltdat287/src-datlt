@@ -18,9 +18,9 @@
 		{!! csrf_field() !!}
 		<table class="pure-table pure-table-bordered" width="100%">
 			<tbody>
-			
+
 				@include('members.common.member_infor', ['user' => $user, 'role' => $role, 'boss' => $boss])
-				
+
 				<tr>
 					<td colspan="2" align="right">
 						<button class="pure-button pure-button-primary" name="back" type="submit">戻る</button>

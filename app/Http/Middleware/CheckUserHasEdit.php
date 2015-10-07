@@ -18,7 +18,7 @@ class CheckUserHasEdit
     public function handle($request, Closure $next)
     {
         $user = Auth::user();
-        
+
         if (MemberHelper::getCurrentUserRole() != 'admin' && $user->id != $request->id)
         {
             if (MemberHelper::getCurrentUserRole() == 'boss')
@@ -28,7 +28,7 @@ class CheckUserHasEdit
             $errors[] = sprintf(trans('validation.not_direct_access'));
             return view('errors.system_error')->with('errors', $errors);
         }
-        
+
         return $next($request);
     }
 }

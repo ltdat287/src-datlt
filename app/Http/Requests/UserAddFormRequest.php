@@ -3,7 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Http\Requests\Request;
-use App\Helpers\MemberHelper;
+use Session;
 
 class UserAddFormRequest extends Request
 {
@@ -14,7 +14,14 @@ class UserAddFormRequest extends Request
      */
     public function authorize()
     {
-        return true;
+        if (Session::has('page') && Session::get('page') == 'page_input') {
+
+            return true;
+        } else {
+            $this->error = '入力画面を経由せずに直接参照されました。';
+
+            return false;
+        }
     }
 
     /**
@@ -24,24 +31,8 @@ class UserAddFormRequest extends Request
      */
     public function rules()
     {
-        $valid = [
-            'name'               => 'required|min:1|max:16',
-            'kana'               => 'required|min:1|max:16',
-            'email'              => 'vp_email|required|max:255|unique:users',
-            'email_confirmation' => 'required|confirmed',
-            'telephone_no'       => 'required|vp_telephone|min:10|max:13',
-            'birthday'           => 'required|date_format:' . VP_TIME_FORMAT . '|vp_date|min:10|max:10',
-            'note'               => 'required|min:1|max:300',
-            'password'           => 'required|between:8,32',
-            'use_role'           => 'required',
-            'boss_id'            => 'boss_with_employee:use_role',
+        return [
+            //
         ];
-
-        if (MemberHelper::getCurrentUserRole() == 'boss') {
-            unset($valid['use_role']);
-            unset($valid['boss_id']);
-        }
-
-        return $valid;
     }
 }

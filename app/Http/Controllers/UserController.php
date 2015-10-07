@@ -8,8 +8,8 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\User;
 use App\Http\Requests\UserSearchFormRequest;
-use App\Http\Requests\UserAddFormRequest;
 use App\Http\Requests\UserEditFormRequest;
+use App\Http\Requests\UserAddFormRequest;
 use Input;
 use App\Helpers\MemberHelper;
 use Session;
@@ -57,7 +57,7 @@ class UserController extends Controller
         // Set data for view
         $data = array(
             'users'    => $users,
-        );
+            );
 
         return view('members.top', $data);
     }
@@ -69,15 +69,12 @@ class UserController extends Controller
      */
     public function create()
     {
-        // Clear user session.
-        //Session::forget('user');
-
         // create array roles to display
         $roles = array(
             'admin'    => ADMIN,
             'boss'     => BOSS,
             'employee' => EMPLOYEE
-        );
+            );
 
         // Get bosses
         $bosses = User::getBosses()->get();
@@ -85,12 +82,15 @@ class UserController extends Controller
         // Get user session
         $user = Session::get('user');
 
+        // Create session for add page
+        Session::put('page', 'page_input');
+
         // Build data for views
         $data = array(
             'roles'  => $roles,
             'bosses' => $bosses,
             'user'   => $user
-        );
+            );
 
         return view('members.add', $data);
     }
@@ -103,6 +103,71 @@ class UserController extends Controller
      */
     public function add_conf(UserAddFormRequest $request)
     {
+        // Array rules validate for request to add member
+        $rules = array(
+            'name'               => 'required|min:1|max:16',
+            'kana'               => 'required|min:1|max:16',
+            'email'              => 'required|max:255|unique:users|vp_email',
+            'email_confirmation' => 'required|same:email',
+            'telephone_no'       => 'required|vp_telephone|min:10|max:13',
+            'birthday'           => 'required|date_format:' . VP_TIME_FORMAT . '|vp_date|min:10|max:10',
+            'note'               => 'required|min:1|max:300',
+            'password'           => 'required|between:8,32',
+            'use_role'           => 'required',
+            'boss_id'            => 'boss_with_employee:use_role',
+            );
+
+        // Create form input add for member is boss
+        if (MemberHelper::getCurrentUserRole() == 'boss') {
+            unset($rules['use_role']);
+            unset($rules['boss_id']);
+        }
+
+        // Check exists of input login post form
+        foreach ($rules as $key => $value)
+        {
+            if (!$request->exists($key)) {
+                $errors[] = sprintf(trans('validation.attribute_exists'), trans('validation.attributes.' . $key));
+
+                return view('errors.system_error')->with('errors', $errors);
+            }
+        }
+
+        // Check boss_id of boss not disabled
+        if ($request->has('boss_id')) {
+            $boss_id = $request->get('boss_id');
+            $user = User::find($boss_id);
+            $check_role = $user->role;
+            if ($check_role != 'boss') {
+                $errors[] = sprintf(trans('validation.input_not_found'), trans('validation.attributes.boss_id'));
+
+                return view('errors.system_error')->with('errors', $errors);
+            } else {
+                $check_disabled = $user->disabled;
+                if ($check_disabled != 0) {
+                    $errors[] = sprintf(trans('validation.input_not_found'), trans('validation.attributes.boss_id'));
+
+                    return view('errors.system_error')->with('errors', $errors);
+                }
+            }
+        }
+
+        // Action validate all input with rule for add member
+        $validator = Validator::make($request->all(), $rules);
+
+        if ($validator->fails()) {
+
+            return back()
+            ->withErrors($validator)
+            ->withInput();
+        }
+
+        // Change session for page to page_confirm
+        if (Session::has('page') && Session::get('page') == 'page_input') {
+            Session::forget('page');
+            Session::put('page', 'page_confirm');
+        }
+
         // Get user data
         $data = self::_confirmUser($request);
 
@@ -117,6 +182,17 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
+        // Check session of page_confirm
+        if (!Session::has('page') || Session::get('page') != 'page_confirm')
+        {
+            $errors[] = sprintf(trans('validation.direct_access_page_confirm'));
+
+            return view('errors.system_error')->with('errors', $errors);
+        }
+
+        // Clear session of page_confirm
+        Session::forget('page');
+
         // Get user from session
         $user = Session::get('user');
 
@@ -133,7 +209,7 @@ class UserController extends Controller
             $data = array(
                 'label'   => trans('追加（完了）'),
                 'message' => $message
-            );
+                );
 
             return view('members.common.member_comp', $data);
         }
@@ -164,7 +240,7 @@ class UserController extends Controller
             'role' => $role,
             'boss' => $boss,
             'id'   => $id
-        );
+            );
 
         return view('members.detail', $data);
     }
@@ -177,16 +253,12 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        // Clear user session.
-        Session::forget('user');
-
         // Get roles
-
         $roles = array(
             'admin'    => ADMIN,
             'boss'     => BOSS,
             'employee' => EMPLOYEE,
-        );
+            );
 
         // Get bosses
         $bosses = User::getBosses()->get();
@@ -195,12 +267,15 @@ class UserController extends Controller
         $user = User::find($id);
 
         // Get user session
-        if (Session::has('user'))
+        if (Session::has('user') && isset(Session::get('user')->id))
         {
             $user = Session::get('user');
         } else {
             Session::put('user', $user);
         }
+
+         // Create session for add page
+        Session::put('page', 'page_input');
 
         // Prepare data for view.
         $data = array(
@@ -208,7 +283,7 @@ class UserController extends Controller
             'roles'  => $roles,
             'bosses' => $bosses,
             'user'   => $user
-        );
+            );
 
         return view('members.edit', $data);
     }
@@ -221,17 +296,84 @@ class UserController extends Controller
      */
     public function edit_conf($id, UserEditFormRequest $request)
     {
-        $validator = Validator::make($request->all(), [
-            'use_role'           => 'boss_to_employee:' . $id,
-        ]);
+        // Array rules validate for input of UserEditFormRequest
+        $rules = array(
+            'name'               => 'required|min:1|max:16',
+            'kana'               => 'required|min:1|max:16',
+            'email'              => 'required|vp_email|max:255|unique:users,email,' . $id,
+            'email_confirmation' => 'required|same:email',
+            'telephone_no'       => 'required|vp_telephone|min:10|max:13',
+            'birthday'           => 'required|date_format:' . VP_TIME_FORMAT . '|vp_date|min:10|max:10',
+            'note'               => 'required|min:1|max:300',
+            'password'           => 'required|between:8,32',
+            'use_role'           => 'required|employee_to_boss:boss_id|boss_to_employee:' . $id,
+            'boss_id'            => 'boss_with_employee:use_role',
+            );
+
+        // Set form edit for employee member
+        if (MemberHelper::getCurrentUserRole() == 'employee') {
+            unset($rules['email']);
+            unset($rules['email_confirmation']);
+            unset($rules['note']);
+            unset($rules['use_role']);
+            unset($rules['boss_id']);
+        }
+
+        // Set form edit for boss member
+        if (MemberHelper::getCurrentUserRole() == 'boss') {
+            unset($rules['use_role']);
+            unset($rules['boss_id']);
+        }
+
+        // Check exists of input login post form
+        foreach ($rules as $key => $value)
+        {
+            if (!$request->exists($key)) {
+                $errors[] = sprintf(trans('validation.attribute_exists'), trans('validation.attributes.' . $key));
+
+                return view('errors.system_error')->with('errors', $errors);
+            }
+        }
+
+        // Check value of use_role only in array role
+        $roles = array('admin','boss','employee',);
+        if ($request->has('use_role')) {
+            $role = $request->get('use_role');
+
+            if (!in_array($role, $roles)) {
+                $errors[] = sprintf(trans('validation.input_not_found'), trans('validation.attributes.use_role'));
+
+                return view('errors.system_error')->with('errors', $errors);
+            }
+        }
+
+        // Action validate all input with rule for add member
+        $validator = Validator::make($request->all(), $rules);
 
         if ($validator->fails()) {
+
             return back()
-                ->withErrors($validator)
-                ->withInput();
+            ->withErrors($validator)
+            ->withInput();
         }
+
         // Get user data
         $data = self::_confirmUser($request);
+
+        // Add ID of user to session of user_edit
+
+        if (Session::has('user'))
+        {
+            $user = Session::get('user');
+            $user->id = $id;
+            Session::put('user', $user);
+        }
+
+        // Change session for page to page_confirm
+        if (Session::has('page') && Session::get('page') == 'page_input') {
+            Session::forget('page');
+            Session::put('page', 'page_confirm');
+        }
 
         $data['id'] = $id;
 
@@ -246,25 +388,42 @@ class UserController extends Controller
      */
     public function update($id)
     {
+        // Check session of page_confirm
+        if (!Session::has('page') || Session::get('page') != 'page_confirm')
+        {
+            $errors[] = sprintf(trans('validation.direct_access_page_confirm'));
+
+            return view('errors.system_error')->with('errors', $errors);
+        }
+
+        // Clear session of page_confirm
+        Session::forget('page');
+
         // Get user from session.
         $user   = Session::get('user');
 
-        $record = User::find($id);
-        if (! $record) {
-            return Redirect::route('not_found');
+        // If back button of page edit_confirm redirect to page edit
+        if (isset(Input::all()['back']) || empty($user)) {
+
+            return redirect('member/' . $id . '/edit');
+        } else {
+            $record = User::find($id);
+            if (! $record) {
+                return Redirect::route('not_found');
+            }
+            $record = self::_updateUser($record, $user);
+
+            // Clear session
+            Session::forget('user');
+
+            $message = self::_linkToDetail($record->id) . trans('として追加しました。');
+            $data = array(
+                'label' => trans('追加（完了）'),
+                'message' => $message
+                );
+
+            return view('members.common.member_comp', $data);
         }
-        $record = self::_updateUser($record, $user);
-
-        // Clear session
-        Session::forget('user');
-
-        $message = self::_linkToDetail($record->id) . trans('として追加しました。');
-        $data = array(
-            'label' => trans('追加（完了）'),
-            'message' => $message
-        );
-
-        return view('members.common.member_comp', $data);
     }
 
     /**
@@ -287,11 +446,19 @@ class UserController extends Controller
         // Get boss.
         $boss = User::find($user->boss_id);
 
-        $errors = array();
         // Check current role is BOSS and not same boss_id of user delete.
+        $errors = array();
         if (MemberHelper::getCurrentUserRole() == 'boss' && $user->boss_id != Auth::user()->id)
         {
             $errors[] = trans('validation.user_not_delete_boss');
+        }
+
+        // Check role of member if BOSS and not has member.
+        if ($role == 'boss') {
+            $member = User::where('boss_id', $id)->get();
+            if (isset($member)) {
+                $errors[] = trans('validation.user_not_me_own');
+            }
         }
 
         // Prepare data for view.
@@ -301,7 +468,7 @@ class UserController extends Controller
             'role'   => $role,
             'boss'   => $boss,
             'errors' => $errors
-        );
+            );
 
         return view('members.delete_conf', $data);
     }
@@ -323,7 +490,7 @@ class UserController extends Controller
         $data = array(
             'label' => trans('削除（完了）'),
             'message' => trans('削除しました。')
-        );
+            );
 
         return view('members.common.member_comp', $data);
     }
@@ -421,16 +588,16 @@ class UserController extends Controller
 
         // Get role.
         $roles = array(
-            'admin' => ADMIN,
-            'boss' => BOSS,
+            'admin'    => ADMIN,
+            'boss'     => BOSS,
             'employee' => EMPLOYEE
-        );
+            );
 
         // Build data for view.
         $data = array(
             'users' => $users,
             'roles' => $roles
-        );
+            );
 
         return view('members.search', $data);
     }
@@ -478,7 +645,7 @@ class UserController extends Controller
             'user' => $user,
             'role' => $role,
             'boss' => $boss
-        );
+            );
 
         return $data;
     }
@@ -563,7 +730,7 @@ class UserController extends Controller
         if (MemberHelper::getCurrentUserRole() != 'employee')
         {
             $record->email        = $user->email;
-            $record->note         = ($user->note) ? $user->note : '';
+            $record->note         = ($user->note) ? ($user->note) : '';
             if (MemberHelper::getCurrentUserRole() == 'boss')
             {
                 $user->role  = 'employee';

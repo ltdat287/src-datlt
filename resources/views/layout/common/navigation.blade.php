@@ -46,7 +46,7 @@ else
     @if ($name)
     <li class="pure-menu-item"><span class="pure-menu-link">{{ $name }}</span></li>
     @endif
-    
+
     @foreach ($arrLinks as $link => $label)
 	<li class="pure-menu-item"><a href="{{ $link }}" class="pure-menu-link">{{ $label }}</a></li>
 	@endforeach

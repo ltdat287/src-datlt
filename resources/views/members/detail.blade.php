@@ -21,9 +21,9 @@
 					<th>{{ trans('ID') }}</th>
 					<td>{{{ $id }}}</td>
 				</tr>
-				
+
 				@include('members.common.member_infor', ['user' => $user, 'role' => $role, 'boss' => $boss])
-				
+
 				<tr>
 					<td colspan="2" align="right">
 					    @if (MemberHelper::getCurrentUserRole() != 'employee')

@@ -69,16 +69,16 @@ class MyValidator extends Validator {
         $id = $parameters[0];
         $user = User::find($id);
 
-        if ($user->use_role == 'boss' && $value === 'employee')
+        if ($user->role == 'boss' && $value === 'employee')
         {
             $has_employee = User::where('boss_id', $id)->firstOrFail();
             if ($has_employee) {
 
                 return false;
-            } else {
-
-                return true;
             }
+        } else {
+
+            return true;
         }
     }
 
@@ -118,7 +118,7 @@ class MyValidator extends Validator {
      */
     public function validateVpTelephone($attribute, $value, $parameters)
     {
-        if (preg_match("/0(?:\d\-\d{4}|\d{2}\-\d{3}|\d{3}\-\d{2}|\d{4}\-\d{1})\-\d{4}$/", $value)) {
+        if ("regex:/0(?:\d\-\d{4}|\d{2}\-\d{3}|\d{3}\-\d{2}|\d{4}\-\d{1})\-\d{4}$/") {
             return true;
         }
 

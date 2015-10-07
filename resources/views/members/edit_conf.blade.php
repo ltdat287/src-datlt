@@ -23,12 +23,12 @@
 					<th>{{ trans('ID') }}</th>
 					<td>{{{ $id }}}</td>
 				</tr>
-			
+
 				@include('members.common.member_infor', ['user' => $user])
-				
+
 				<tr>
 					<td colspan="2" align="right">
-						<a class="pure-button pure-button-primary" href="{{ url('member/' . $id . '/detail') }}">{{ trans('戻る') }}</a>
+						<button class="pure-button pure-button-primary" name="back" type="submit">戻る</button>
 						<button class="pure-button button-error" name="submit" type="submit">{{ trans('確認') }}</button>
 					</td>
 				</tr>

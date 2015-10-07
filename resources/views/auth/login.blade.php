@@ -16,19 +16,19 @@
 	<section>
 
 	@include('members.common.member_error')
-	
+
 		<form class="pure-form" action="{{ url('/login') }}" method="POST">
 			{!! csrf_field() !!}
 			<fieldset class="pure-group">
 				<input type="text" name="email" class="pure-input-1-4 required" placeholder="メールアドレス">
 					@if ($errors->has('email'))
-	        			@foreach ($errors->get('email') as $error ) 
+	        			@foreach ($errors->get('email') as $error )
 	        			<section class="error-message">{{ $error }}</section>
 	        			@endforeach
 	        		@endif
 				<input type="password" name="password" class="pure-input-1-4 required" placeholder="パスワード">
 					@if ($errors->has('password'))
-            			@foreach ($errors->get('password') as $error ) 
+            			@foreach ($errors->get('password') as $error )
             			<section class="error-message">{{ $error }}</section>
             			@endforeach
             		@endif
