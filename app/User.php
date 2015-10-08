@@ -38,6 +38,13 @@ class User extends Model implements AuthenticatableContract,
     protected $hidden = ['password', 'remember_token'];
 
     /**
+     * The attributes that need date form to process date-time of Carbon
+     * 
+     * @var array
+     */
+    protected $dates = ['created_at', 'updated_at', 'birthday'];
+
+    /**
      * [getUsers Get user info where not disabled and older by updated_at DESC]
      * @return [collection]
      */

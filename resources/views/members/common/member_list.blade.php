@@ -20,11 +20,8 @@
 						<td><a href="{{ url('/member/' . $user->id . '/detail') }}">{{ $user->name }}({{ $user->kana }})</a></td>
 						<td>{{ $user->email }}</td>
 						<td>{{ $user->telephone_no }}</td>
-						<?php
-						   $birthday = new \Carbon($user->birthday);
-						?>
-						<td>{{ $birthday->format('Y/m/d') }}</td>
-						<td>{{ with($user->updated_at)->format('Y/m/d H:i:s') }}</td>
+						<td>{{ $user->birthday->format('Y/m/d') }}</td>
+						<td>{{ $user->updated_at->format('Y/m/d H:i:s') }}</td>
 
 						@if ($user->role === 'admin')
 							<td>{{ ADMIN }}</td>

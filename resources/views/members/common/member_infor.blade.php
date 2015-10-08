@@ -18,10 +18,7 @@
 </tr>
 <tr>
 	<th>生年月日</th>
-	<?php
-	   $birthday = new \Carbon($user->birthday);
-	?>
-	<td>{{ $birthday->format('Y/m/d') }}</td>
+	<td>{{ $user->birthday->format('Y/m/d') }}</td>
 </tr>
 @if (MemberHelper::getCurrentUserRole() != 'employee')
     <tr>
