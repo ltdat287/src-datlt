@@ -97,9 +97,9 @@
 		<select autocomplete="off" name="use_role" class="pure-input-1">
             @foreach ($roles as $key => $value)
                 @if ($user != null)
-                <option value="{{ $key }}" {{ ($user->role && $user->role == $key) ? "selected=selected" : '' }} >{{{ $value }}}</option>
+                <option value="{{ $key }}" {{ ($user->role && $user->role == $key) ? "selected=selected" : '' }} >{{ $value }}</option>
                 @else
-                <option value="{{ $key }}" {{ (MemberHelper::getOld('use_role') == $key) ? "selected=selected" : '' }}>{{{ $value }}}</option>
+                <option value="{{ $key }}" {{ (MemberHelper::getOld('use_role') == $key) ? "selected=selected" : '' }}>{{ $value }}</option>
                 @endif
             @endforeach
 		</select>
@@ -116,7 +116,7 @@
 		<select autocomplete="off" name="boss_id" class="pure-input-1">
 			<option value="">--</option>
 			@foreach($bosses as $boss)
-			<option value="{{{ $boss->id }}}" {{ (MemberHelper::getOld('boss_id') == $boss->id) ? "selected" : '' }}>{{{ $boss->name }}}</option>
+			<option value="{{{ $boss->id }}}" {{ (MemberHelper::getOld('boss_id') == $boss->id) ? "selected" : '' }}>{{ $boss->name }}</option>
 			@endforeach
 		</select>
 		@if ($errors->has('boss_id'))

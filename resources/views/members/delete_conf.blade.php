@@ -21,7 +21,7 @@
 				<h3>!!ERROR!!</h3>
 				<ul>
 					@foreach ($errors as $error)
-						<li>{{{ $error }}}</li>
+						<li>{{ $error }}</li>
 					@endforeach
 				</ul>
 			</section>
@@ -33,7 +33,7 @@
 			<tbody>
 				<tr>
 					<th>{{ trans('ID') }}</th>
-					<td>{{{ $id }}}</td>
+					<td>{{ $id }}</td>
 				</tr>
 
 				@include('members.common.member_infor', ['user' => $user])

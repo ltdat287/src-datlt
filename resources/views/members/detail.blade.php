@@ -19,7 +19,7 @@
 			<tbody>
 				<tr>
 					<th>{{ trans('ID') }}</th>
-					<td>{{{ $id }}}</td>
+					<td>{{ $id }}</td>
 				</tr>
 
 				@include('members.common.member_infor', ['user' => $user, 'role' => $role, 'boss' => $boss])

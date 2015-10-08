@@ -3,7 +3,7 @@
 		<h3>!!ERROR!!</h3>
 		<ul>
 			@foreach ($errors->all() as $error)
-				<li>{{{ $error }}}</li>
+				<li>{{ $error }}</li>
 			@endforeach
 		</ul>
 	</section>

@@ -32,13 +32,13 @@
         <tr>
             <th>権限</th>
             @if ($user->role === 'admin')
-                <td>{{{ ADMIN }}}</td>
+                <td>{{ ADMIN }}</td>
             @elseif ($user->role === 'employee')
-                <td>{{{ EMPLOYEE }}}</td>
+                <td>{{ EMPLOYEE }}</td>
             @elseif ($user->role === 'boss')
-                <td>{{{ BOSS }}}</td>
+                <td>{{ BOSS }}</td>
             @else
-                <td>{{{ $user->role }}}</td>
+                <td>{{ $user->role }}</td>
             @endif
         </tr>
         <tr>
