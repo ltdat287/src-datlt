@@ -58,7 +58,7 @@
 <tr>
 	<th {{ $errors->has('birthday') ? "class=error-cell" : '' }} >生年月日</th>
 	<td>
-		<input type="text" name="birthday" value="{{ MemberHelper::getOld('birthday') }}" class="pure-input-1">
+		<input type="text" name="birthday" value="{{ (MemberHelper::getOld('birthday')) ? (MemberHelper::getOld('birthday')->format('Y-m-d')) : '' }}" class="pure-input-1">
 		@if ($errors->has('birthday'))
 			@foreach ($errors->get('birthday') as $error )
 			<section class="error-message">{{ $error }}</section>

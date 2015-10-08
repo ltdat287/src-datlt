@@ -9,7 +9,7 @@
 @endsection
 
 @section('content.h2')
-編集
+{{ $user->name }}({{ $user->kana }})の詳細
 @endsection
 
 @section('content')

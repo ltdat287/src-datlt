@@ -1,11 +1,19 @@
+<?php if ($app->environment('local')) {
+	$css_pure_min = url('css/pure-min.css');
+	$css_custom = url('css/custom.css');
+} else {
+	$css_pure_min = 'http://edu.localhost/css/pure-min.css';
+	$css_custom = 'http://edu.localhost/css/custom.css';
+}
+?>
 <!DOCTYPE html>
 <html lang="ja">
 <head>
 	<meta content="社員管理システム ログインページです。" name="description">
 	<title>@yield('title')</title>
-	<link href="/" rel="canonical">
-	<link rel="stylesheet" href="{{{ asset('/css/pure-min.css') }}}">
-    <link rel="stylesheet" href="{{{ asset('/css/custom.css') }}}">
+	<link href="/{{ (Route::getCurrentRoute()->getPath() == '/') ? '' : (Route::getCurrentRoute()->getPath()) }}" rel="canonical">
+	<link rel="stylesheet" href="{{ $css_pure_min }}">
+    <link rel="stylesheet" href="{{ $css_custom }}">
 </head>
 <body>
 

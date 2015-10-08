@@ -16,6 +16,7 @@ use Session;
 use Redirect;
 use Auth;
 use Validator;
+use Carbon\Carbon;
 
 class UserController extends Controller
 {
@@ -619,7 +620,7 @@ class UserController extends Controller
         $user->kana               = $request->get('kana');
         $user->password           = $request->get('password');
         $user->telephone_no       = $request->get('telephone_no');
-        $user->birthday           = $request->get('birthday');
+        $user->birthday           = Carbon::createFromFormat('Y-m-d', $request->get('birthday'));
         $user->note               = ($request->get('note')) ? $request->get('note') : '';
         $user->role               = $request->get('use_role');
 

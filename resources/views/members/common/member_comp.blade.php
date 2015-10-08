@@ -1,7 +1,7 @@
 @extends('layout.master')
 
 @section('title')
-追加（完了） | 社員管理システム
+{{ $label }} | 社員管理システム
 @endsection
 
 @section('header.h1')

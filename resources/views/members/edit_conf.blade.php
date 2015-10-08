@@ -1,7 +1,7 @@
 @extends('layout.master')
 
 @section('title')
-編集 | 社員管理システム
+編集（確認） | 社員管理システム
 @endsection
 
 @section('header.h1')
@@ -9,7 +9,7 @@
 @endsection
 
 @section('content.h2')
-編集
+編集（確認）
 @endsection
 
 @section('content')
