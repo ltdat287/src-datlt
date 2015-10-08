@@ -154,10 +154,10 @@ class AuthController extends Controller
      */
     public function getLogout()
     {
+        Auth::logout();
+
         // Destroy all session of page
         Session::flush();
-
-        Auth::logout();
 
         return view ('auth.logout');
     }

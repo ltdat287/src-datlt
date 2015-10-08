@@ -32,7 +32,7 @@ class UserController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return Response
+     * @return Response [view Top page with data of user]
      */
     public function index()
     {
@@ -65,7 +65,7 @@ class UserController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return Response
+     * @return Response [view page Add with data of role, boss, user]
      */
     public function create()
     {
@@ -98,8 +98,8 @@ class UserController extends Controller
     /**
      * [POST] Show the member add confirm view.
      *
-     * @param UserAddFormRequest $request
-     * @return \Illuminate\View\$this
+     * @param UserAddFormRequest $request [check request before return next $request]
+     * @return [Responce] [view page add_conf with data of input]
      */
     public function add_conf(UserAddFormRequest $request)
     {
@@ -177,8 +177,8 @@ class UserController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  Request  $request
-     * @return Response
+     * @param  Request  $request [Check request before return next $request]
+     * @return Response [view page add member_comp with message]
      */
     public function store(Request $request)
     {
@@ -218,8 +218,8 @@ class UserController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
-     * @return Response
+     * @param  int  $id [id of member need show]
+     * @return Response [view page detail of member]
      */
     public function show($id)
     {
@@ -248,8 +248,8 @@ class UserController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
-     * @return Response
+     * @param  int  $id [id of member need edit]
+     * @return Response [view page edit member with data of member]
      */
     public function edit($id)
     {
@@ -291,8 +291,9 @@ class UserController extends Controller
     /**
      * [POST] Process validation form edit member submit
      *
-     * @param integer $id
-     * @param UserEditFormRequest $request
+     * @param integer $id [id of member need edit]
+     * @param UserEditFormRequest $request [check request of edit member before return next $request]
+     * @return Responese [view page edit_confirm of member with id of member]
      */
     public function edit_conf($id, UserEditFormRequest $request)
     {
@@ -383,8 +384,8 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  int  $id
-     * @return Response
+     * @param  int  $id [id of member need update]
+     * @return Response [view page member_comp with messages]
      */
     public function update($id)
     {
@@ -429,8 +430,8 @@ class UserController extends Controller
     /**
      * [POST] Delete user.
      *
-     * @param integer $id
-     * @return \Illuminate\View\View
+     * @param integer $id [id f member need delete]
+     * @return Responese [view page delete_conf with data of uesr, role, boss and message errors]
      */
     public function delete_conf($id)
     {
@@ -497,8 +498,8 @@ class UserController extends Controller
 
     /**
      * Show the page search user
-     * @param  UserSearchFormRequest $request [/search?{search_query}]
-     * @return [view ('members.search')]
+     * @param  UserSearchFormRequest $request [check validate of input form search before return next $request ]
+     * @return [view ('members.search')] [view page search member with resulft of search]
      */
     public function search(UserSearchFormRequest $request)
     {
@@ -605,8 +606,8 @@ class UserController extends Controller
     /**
      * prepare user data for confirm view.
      *
-     * @param object $request
-     * @return array
+     * @param object $request [request of user input]
+     * @return array [array data of user, role, boss]
      */
     private static function _confirmUser($request)
     {
@@ -653,8 +654,8 @@ class UserController extends Controller
     /**
      * Get link to member detail page.
      *
-     * @param string $userId
-     * @return string
+     * @param string $userId [id of member]
+     * @return string [string html to display on page]
      */
     private static function _linkToDetail($userId = '')
     {
@@ -664,9 +665,9 @@ class UserController extends Controller
     /**
      * Common function for save user.
      *
-     * @param object $record
-     * @param object $user
-     * @return object
+     * @param object $record [record used to save database]
+     * @param object $user [data of member need save]
+     * @return object [record to save database]
      */
     private static function _saveUser(&$record, $user)
     {
@@ -710,9 +711,9 @@ class UserController extends Controller
     /**
      * Common function for update user.
      *
-     * @param object $record
-     * @param object $user
-     * @return object
+     * @param object $record [record used to save database]
+     * @param object $user [data of member need save]
+     * @return object [record to save database]
      */
     private static function _updateUser(&$record, $user)
     {

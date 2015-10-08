@@ -12,9 +12,9 @@ class MemberHelper
     /**
      * Function to get cache data for form
      *
-     * @param string $key
-     * @param string $group
-     * @return string
+     * @param string $key [name input of form]
+     * @param string $group [name of session]
+     * @return string [string to display in form]
      */
     public static function getOld($key = '', $group = 'user')
     {
@@ -31,7 +31,7 @@ class MemberHelper
     /**
      * Get max date format {now year - 10year}-01-01
      *
-     * @return string
+     * @return string [date of maxdate]
      */
     public static function getMaxDate()
     {
@@ -41,7 +41,7 @@ class MemberHelper
     /**
      * Check current user is loggin.
      *
-     * @return object
+     * @return object [return object User]
      */
     public static function checkLogin()
     {
@@ -52,7 +52,7 @@ class MemberHelper
     /**
      * Get current user role.
      *
-     * @return string
+     * @return string [return current role of user]
      */
     public static function getCurrentUserRole()
     {
@@ -69,7 +69,7 @@ class MemberHelper
     /**
      * Check allow show edit button
      *
-     * @param string $id
+     * @param string $id [id of user loggin]
      * @return boolean
      */
     public static function showEditButton($id = '')
