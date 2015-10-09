@@ -19,14 +19,21 @@ class CheckUserDisabled
         // Check user disabled in db.
         if ($request->id) {
             $user = User::find($request->id);
-            if ( empty($user) || $user->disabled ) {
-                $errors[] = sprintf(trans('validation.deleted_id'), $request->id);
+            if ( empty($user) ) {
+                $errors[] = sprintf(trans('validation.id_not_exist'), $request->id);
+
                 return view('errors.system_error')->with('errors', $errors);
+            } elseif ( $user->disabled ) {
+                $errors[] = sprintf(trans('validation.deleted_id'), $request->id);
+
+                return view('errors.system_error')->with('errors', $errors);
+            } else {
+
+                return $next($request);
             }
         } else {
+
             return redirect('/');
         }
-
-        return $next($request);
     }
 }

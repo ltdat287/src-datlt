@@ -525,11 +525,6 @@ class UserController extends Controller
                             $user_ids[] = $user->id;
                         }
                     }
-                } else {
-                    // Check exist value of arr_checked
-                    $errors[] = sprintf(trans('validation.attribute_exists'), trans('validation.attributes.' . $checked));
-
-                    return view('errors.system_error')->with('errors', $errors);
                 }
             }
         }

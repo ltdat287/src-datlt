@@ -22,7 +22,7 @@
         // Write error to log.
         Log::error($error);
         ?>
-		<li>{{ trans('必須入力項目') }}{{ $error }}</li>
+		<li>{{ $error }}</li>
 	@endforeach
 	</ul>
 </section>

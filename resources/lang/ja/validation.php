@@ -27,6 +27,7 @@ return [
     'date_format'                => ':attributeはYYYY-mm-dd形式で入力してください。',
     'input_not_found'            => '%sに未定義の値が入力されました。',
     'direct_access_page_confirm' => '確認画面を経由せずに直接参照されました。',
+    'id_not_exist'               => '存在しないID：%sに対するアクセスがありました。',
 
     /**
      * Change attribute from name of input to placeholder
