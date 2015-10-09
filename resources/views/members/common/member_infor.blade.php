@@ -18,7 +18,7 @@
 </tr>
 <tr>
 	<th>生年月日</th>
-	<td>{{ $user->birthday->format('Y/m/d') }}</td>
+	<td>{{ $user->birthday }}</td>
 </tr>
 @if (MemberHelper::getCurrentUserRole() != EMPLOYEE)
     <tr>

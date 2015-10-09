@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\Access\Authorizable;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
+use Carbon\Carbon;
 
 /**
  * User model used to get info of member from database
@@ -64,5 +65,15 @@ class User extends Model implements AuthenticatableContract,
         $results = self::where('disabled', '=', false)->where('role', '=', BOSS);
 
         return $results;
+    }
+
+    public function getBirthdayAttribute($value)
+    {
+        if ( is_null($value) ) {
+            return null;
+        } else {
+
+            return Carbon::parse($value)->format('Y/m/d');
+        }
     }
 }

@@ -19,7 +19,7 @@
 					<td><a href="{{ url('/member/' . $user->id . '/detail') }}">{{ $user->name }}({{ $user->kana }})</a></td>
 					<td>{{ $user->email }}</td>
 					<td>{{ $user->telephone_no }}</td>
-					<td>{{ $user->birthday->format('Y/m/d') }}</td>
+					<td>{{ $user->birthday }}</td>
 					<td>{{ $user->updated_at->format('Y/m/d H:i:s') }}</td>
 					<td>{{ MemberHelper::getNameRole($user->role) }}</td>
 				</tr>
