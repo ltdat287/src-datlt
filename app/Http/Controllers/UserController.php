@@ -41,13 +41,13 @@ class UserController extends Controller
         $users = User::getUsers();
 
         // Redirect to user detail if has employ role.
-        if (MemberHelper::getCurrentUserRole() == 'employee')
+        if (MemberHelper::getCurrentUserRole() == EMPLOYEE)
         {
             $users->where('id', '=', Auth::user()->id);
         }
 
         // Only listing employ of current user own
-        if (MemberHelper::getCurrentUserRole() == 'boss')
+        if (MemberHelper::getCurrentUserRole() == BOSS)
         {
             $users->where('boss_id', '=', Auth::user()->id);
         }
@@ -72,9 +72,9 @@ class UserController extends Controller
     {
         // create array roles to display
         $roles = array(
-            'admin'    => ADMIN,
-            'boss'     => BOSS,
-            'employee' => EMPLOYEE
+            '管理者'  => ADMIN,
+            'BOSS'   => BOSS,
+            '従業員'  => EMPLOYEE
             );
 
         // Get bosses
@@ -91,7 +91,7 @@ class UserController extends Controller
             'roles'  => $roles,
             'bosses' => $bosses,
             'user'   => $user
-            );
+        );
 
         return view('members.add', $data);
     }
@@ -119,7 +119,7 @@ class UserController extends Controller
             );
 
         // Create form input add for member is boss
-        if (MemberHelper::getCurrentUserRole() == 'boss') {
+        if (MemberHelper::getCurrentUserRole() == BOSS) {
             unset($rules['use_role']);
             unset($rules['boss_id']);
         }
@@ -139,7 +139,7 @@ class UserController extends Controller
             $boss_id = $request->get('boss_id');
             $user = User::find($boss_id);
             $check_role = $user->role;
-            if ($check_role != 'boss') {
+            if ($check_role != BOSS) {
                 $errors[] = sprintf(trans('validation.input_not_found'), trans('validation.attributes.boss_id'));
 
                 return view('errors.system_error')->with('errors', $errors);
@@ -198,6 +198,7 @@ class UserController extends Controller
         $user = Session::get('user');
 
         if (isset(Input::all()['back']) || empty($user)) {
+
             return Redirect::route('add');
         } else {
             $record = new User();
@@ -256,9 +257,9 @@ class UserController extends Controller
     {
         // Get roles
         $roles = array(
-            'admin'    => ADMIN,
-            'boss'     => BOSS,
-            'employee' => EMPLOYEE,
+            '管理者'  => ADMIN,
+            'BOSS'   => BOSS,
+            '従業員'  => EMPLOYEE
             );
 
         // Get bosses
@@ -313,7 +314,7 @@ class UserController extends Controller
             );
 
         // Set form edit for employee member
-        if (MemberHelper::getCurrentUserRole() == 'employee') {
+        if (MemberHelper::getCurrentUserRole() == EMPLOYEE) {
             unset($rules['email']);
             unset($rules['email_confirmation']);
             unset($rules['note']);
@@ -322,7 +323,7 @@ class UserController extends Controller
         }
 
         // Set form edit for boss member
-        if (MemberHelper::getCurrentUserRole() == 'boss') {
+        if (MemberHelper::getCurrentUserRole() == BOSS) {
             unset($rules['use_role']);
             unset($rules['boss_id']);
         }
@@ -338,7 +339,7 @@ class UserController extends Controller
         }
 
         // Check value of use_role only in array role
-        $roles = array('admin','boss','employee',);
+        $roles = array(ADMIN,BOSS,EMPLOYEE,);
         if ($request->has('use_role')) {
             $role = $request->get('use_role');
 
@@ -450,13 +451,13 @@ class UserController extends Controller
 
         // Check current role is BOSS and not same boss_id of user delete.
         $errors = array();
-        if (MemberHelper::getCurrentUserRole() == 'boss' && $user->boss_id != Auth::user()->id)
+        if (MemberHelper::getCurrentUserRole() == BOSS && $user->boss_id != Auth::user()->id)
         {
             $errors[] = trans('validation.user_not_delete_boss');
         }
 
         // Check role of member if BOSS and not has member.
-        if ($role == 'boss') {
+        if ($role == BOSS) {
             $member = User::where('boss_id', $id)->get();
             if (isset($member)) {
                 $errors[] = trans('validation.user_not_me_own');
@@ -510,14 +511,20 @@ class UserController extends Controller
 
         // Check roles checked
         $user_ids = array();
-        $arr_checked = ['admin', 'boss', 'employee'];
-        foreach ($arr_checked as $checked)
+
+        // Get role.
+        $roles = array(
+            'admin'    => ADMIN,
+            'boss'     => BOSS,
+            'employee' => EMPLOYEE
+        );
+        foreach ($roles as $key => $value)
         {
-            if (Input::has($checked))
+            if (Input::has($key))
             {
-                if (Input::get($checked) == 1)
+                if (Input::get($key) == $value)
                 {
-                    $users = User::getUsers()->where('role', '=', $checked)->get();
+                    $users = User::getUsers()->where('role', '=', $value)->get();
                     foreach ($users as $user)
                     {
                         if (! in_array($user->id, $user_ids))
@@ -535,7 +542,7 @@ class UserController extends Controller
             if (Input::has($define))
             {
                 $arr_cons[] = $define . ' = ?';
-                $arr_vals[] = Input::get($define);
+                $arr_vals[] = Input::has($define);
             }
         }
 
@@ -561,7 +568,7 @@ class UserController extends Controller
         $users = User::getUsers();
 
         // Only listing employ of current user own
-        if (MemberHelper::getCurrentUserRole() == 'boss')
+        if (MemberHelper::getCurrentUserRole() == BOSS)
         {
             $users->where('boss_id', '=', Auth::user()->id);
         }
@@ -582,13 +589,6 @@ class UserController extends Controller
         {
             $users = $users->paginate(VP_LIMIT_PAGINATE)->setPath('search');
         }
-
-        // Get role.
-        $roles = array(
-            'admin'    => ADMIN,
-            'boss'     => BOSS,
-            'employee' => EMPLOYEE
-            );
 
         // Build data for view.
         $data = array(
@@ -619,7 +619,7 @@ class UserController extends Controller
         $user->note               = ($request->get('note')) ? $request->get('note') : '';
         $user->role               = $request->get('use_role');
 
-        if (MemberHelper::getCurrentUserRole() == 'boss')
+        if (MemberHelper::getCurrentUserRole() == BOSS)
         {
             $user->boss_id = MemberHelper::checkLogin()->id;
         }
@@ -679,14 +679,14 @@ class UserController extends Controller
         $record->telephone_no = $user->telephone_no;
         $record->birthday     = $user->birthday;
         $record->note         = ($user->note) ? $user->note : '';
-        if (MemberHelper::getCurrentUserRole() == 'boss')
+        if (MemberHelper::getCurrentUserRole() == BOSS)
         {
-            $user->role  = 'employee';
+            $user->role  = EMPLOYEE;
             $record->boss_id = MemberHelper::checkLogin()->id;
         }
         else
         {
-            if ($user->role == 'employee') {
+            if ($user->role == EMPLOYEE) {
                 $record->boss_id = (int) $user->boss_id;
             } else {
                 $record->boss_id = 0;
@@ -694,7 +694,7 @@ class UserController extends Controller
         }
 
         // Add role for user.
-        if (MemberHelper::getCurrentUserRole() != 'employee')
+        if (MemberHelper::getCurrentUserRole() != EMPLOYEE)
         {
             $record->role = $user->role;
         }
@@ -724,18 +724,18 @@ class UserController extends Controller
         $record->telephone_no = $user->telephone_no;
         $record->birthday     = $user->birthday;
 
-        if (MemberHelper::getCurrentUserRole() != 'employee')
+        if (MemberHelper::getCurrentUserRole() != EMPLOYEE)
         {
             $record->email        = $user->email;
             $record->note         = ($user->note) ? ($user->note) : '';
-            if (MemberHelper::getCurrentUserRole() == 'boss')
+            if (MemberHelper::getCurrentUserRole() == BOSS)
             {
-                $user->role  = 'employee';
+                $user->role  = EMPLOYEE;
                 $record->boss_id = MemberHelper::checkLogin()->id;
             }
             else
             {
-                if ($user->role == 'employee') {
+                if ($user->role == EMPLOYEE) {
                     $record->boss_id = (int) $user->boss_id;
                 } else {
                     $record->boss_id = 0;

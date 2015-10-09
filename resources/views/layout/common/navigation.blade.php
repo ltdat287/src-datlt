@@ -16,7 +16,7 @@ else
     $role = ($role) ? $role : '';
     switch ($role)
     {
-        case 'admin':
+        case ADMIN:
             $name     = $user->name . '(' . trans('飯塚 浩二（管理者）') . ')';
             $arrLinks = array(
                 url('/search') => trans('検索'),
@@ -24,7 +24,7 @@ else
                 url('/logout') => trans('ログアウト')
             );
             break;
-        case 'boss':
+        case BOSS:
             $name     = $user->name;
             $arrLinks = array(
                 url('/search') => trans('検索'),
@@ -32,7 +32,7 @@ else
                 url('/logout') => trans('ログアウト')
             );
             break;
-        case 'employee':
+        case EMPLOYEE:
             $name     = $user->name;
             $arrLinks = array(
                 url('/logout') => trans('ログアウト')

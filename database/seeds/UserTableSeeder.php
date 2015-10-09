@@ -22,7 +22,7 @@ class UserTableSeeder extends Seeder
             'telephone_no' => '090-1234-5678',
             'birthday' => Carbon::create(1980, 1, 1),
             'note' => "EDU EMS デフォルトアカウントです。\nこのアカウントは常に存在します。",
-			'role' => 'admin',
+			'role' => ADMIN,
 			'created_at' => Carbon::create(2015, 1, 4, 11, 12, 13),
 			'updated_at' => Carbon::create(2015, 1, 4, 11, 12, 13),
         ]);

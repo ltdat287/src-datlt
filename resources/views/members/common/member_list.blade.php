@@ -21,16 +21,7 @@
 					<td>{{ $user->telephone_no }}</td>
 					<td>{{ $user->birthday->format('Y/m/d') }}</td>
 					<td>{{ $user->updated_at->format('Y/m/d H:i:s') }}</td>
-
-					@if ($user->role === 'admin')
-						<td>{{ ADMIN }}</td>
-					@elseif ($user->role === 'employee')
-						<td>{{ EMPLOYEE }}</td>
-					@elseif ($user->role === 'boss')
-						<td>{{ BOSS }}</td>
-					@else
-						<td>{{ $user->role }}</td>
-					@endif
+					<td>{{ MemberHelper::getNameRole($user->role) }}</td>
 				</tr>
 	            @endforeach
 			@endif

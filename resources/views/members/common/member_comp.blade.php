@@ -14,7 +14,7 @@
 
 @section('content')
 	<section>
-		@if (MemberHelper::getCurrentUserRole() == 'employee')
+		@if (MemberHelper::getCurrentUserRole() == EMPLOYEE)
 			<p>
 				登録情報を更新しました。
 			</p>

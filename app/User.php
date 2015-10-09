@@ -39,7 +39,7 @@ class User extends Model implements AuthenticatableContract,
 
     /**
      * The attributes that need date form to process date-time of Carbon
-     * 
+     *
      * @var array
      */
     protected $dates = ['created_at', 'updated_at', 'birthday'];
@@ -61,7 +61,7 @@ class User extends Model implements AuthenticatableContract,
      */
     public static function getBosses()
     {
-        $results = self::where('disabled', '=', false)->where('role', '=', 'boss');
+        $results = self::where('disabled', '=', false)->where('role', '=', BOSS);
 
         return $results;
     }

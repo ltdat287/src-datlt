@@ -19,9 +19,9 @@ class CheckUserHasEdit
     {
         $user = Auth::user();
 
-        if (MemberHelper::getCurrentUserRole() != 'admin' && $user->id != $request->id)
+        if (MemberHelper::getCurrentUserRole() != ADMIN && $user->id != $request->id)
         {
-            if (MemberHelper::getCurrentUserRole() == 'boss')
+            if (MemberHelper::getCurrentUserRole() == BOSS)
             {
                 return $next($request);
             }

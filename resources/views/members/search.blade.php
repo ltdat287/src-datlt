@@ -39,14 +39,14 @@
 					<input type="text" name="end_date" value="{{ Input::old('end_date') }}" placeholder="終了日">
 				</td>
 			</tr>
-			@if (MemberHelper::getCurrentUserRole() == 'admin')
+			@if (MemberHelper::getCurrentUserRole() == ADMIN)
 			<tr>
 				<td>権限</td>
 				<td colspan="3" align="center">
 					<ul class="pure-menu-list pure-menu-horizontal">
                         @foreach ($roles as $key => $value)
                         <li class="pure-menu-item pure-u-1-6">
-                            <label for="{{ $value }}"><input {{ (Input::has($key) && Input::has($key) == '1') ? 'checked=checked' : '' }} type="checkbox" id="{{ $key }}" name="{{ $key }}" value="1">{{ $value }}</label>
+                            <label for="{{ $key }}"><input {{ (Input::has($value) && Input::get($value) == $value) ? 'checked=checked' : '' }} type="checkbox" id="{{ $key }}" name="{{ $key }}" value="{{ $value }}">{{ MemberHelper::getNameRole($value) }}</label>
                         </li>
                         @endforeach
 					</ul>
@@ -56,7 +56,7 @@
 
 			<tr>
 				<td colspan="4" align="right">
-					@if (MemberHelper::getCurrentUserRole() == 'admin' OR MemberHelper::getCurrentUserRole() == 'boss')
+					@if (MemberHelper::getCurrentUserRole() == ADMIN OR MemberHelper::getCurrentUserRole() == BOSS)
 					<button class="pure-button pure-button-primary" type="submit">検索</button>
 					@endif
 				</td>

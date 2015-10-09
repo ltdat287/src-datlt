@@ -20,7 +20,7 @@
 		@endif
 	</td>
 </tr>
-@if (MemberHelper::getCurrentUserRole() != 'employee')
+@if (MemberHelper::getCurrentUserRole() != EMPLOYEE)
 <tr>
 	<th {{ $errors->has('email') ? "class=error-cell" : '' }} >メールアドレス</th>
 	<td>
@@ -58,7 +58,7 @@
 <tr>
 	<th {{ $errors->has('birthday') ? "class=error-cell" : '' }} >生年月日</th>
 	<td>
-		<input type="text" name="birthday" value="{{ (MemberHelper::getOld('birthday')) ? (MemberHelper::getOld('birthday')->format('Y-m-d')) : '' }}" class="pure-input-1">
+		<input type="text" name="birthday" value="{{ (MemberHelper::getOld('birthday')) ? (MemberHelper::getOld('birthday')) : '' }}" class="pure-input-1">
 		@if ($errors->has('birthday'))
 			@foreach ($errors->get('birthday') as $error )
 			<section class="error-message">{{ $error }}</section>
@@ -66,7 +66,7 @@
 		@endif
 	</td>
 </tr>
-@if (MemberHelper::getCurrentUserRole() != 'employee')
+@if (MemberHelper::getCurrentUserRole() != EMPLOYEE)
 <tr>
 	<th {{ $errors->has('note') ? "class=error-cell" : '' }} >ノート</th>
 	<td>
@@ -90,16 +90,16 @@
 		@endif
 	</td>
 </tr>
-@if (MemberHelper::getCurrentUserRole() == 'admin')
+@if (MemberHelper::getCurrentUserRole() == ADMIN)
 <tr>
 	<th {{ $errors->has('use_role') ? "class=error-cell" : '' }}>権限</th>
 	<td>
 		<select autocomplete="off" name="use_role" class="pure-input-1">
             @foreach ($roles as $key => $value)
                 @if ($user != null)
-                <option value="{{ $key }}" {{ ($user->role && $user->role == $key) ? "selected=selected" : '' }} >{{ $value }}</option>
+                <option value="{{ $value }}" {{ ($user->role && $user->role == $value) ? "selected=selected" : '' }} >{{ $key }}</option>
                 @else
-                <option value="{{ $key }}" {{ (MemberHelper::getOld('use_role') == $key) ? "selected=selected" : '' }}>{{ $value }}</option>
+                <option value="{{ $value }}" {{ (MemberHelper::getOld('use_role') == $value) ? "selected=selected" : '' }}>{{ $key }}</option>
                 @endif
             @endforeach
 		</select>
@@ -116,7 +116,7 @@
 		<select autocomplete="off" name="boss_id" class="pure-input-1">
 			<option value="">--</option>
 			@foreach($bosses as $boss)
-			<option value="{{{ $boss->id }}}" {{ (MemberHelper::getOld('boss_id') == $boss->id) ? "selected" : '' }}>{{ $boss->name }}</option>
+			<option value="{{ $boss->id }}" {{ (MemberHelper::getOld('boss_id') == $boss->id) ? "selected" : '' }}>{{ $boss->name }}</option>
 			@endforeach
 		</select>
 		@if ($errors->has('boss_id'))

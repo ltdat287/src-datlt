@@ -16,7 +16,7 @@ class MyValidator extends Validator {
      */
     public function validateBossWithEmployee($attribute, $value, $parameters)
     {
-        return ($this->getValue($parameters[0]) != 'employee') ? false : true;
+        return ($this->getValue($parameters[0]) != EMPLOYEE) ? false : true;
     }
 
     /**
@@ -47,7 +47,7 @@ class MyValidator extends Validator {
      */
     public function validateEmployeeToBoss($attribute, $value, $parameters)
     {
-        if ($this->getValue($parameters[0]) != null && $value === 'boss')
+        if ($this->getValue($parameters[0]) != null && $value === BOSS)
         {
 
             return false;
@@ -69,7 +69,7 @@ class MyValidator extends Validator {
         $id = $parameters[0];
         $user = User::find($id);
 
-        if ($user->role == 'boss' && $value === 'employee')
+        if ($user->role == BOSS && $value === EMPLOYEE)
         {
             $has_employee = User::where('boss_id', $id)->firstOrFail();
             if ($has_employee) {

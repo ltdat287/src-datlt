@@ -80,12 +80,37 @@ class MemberHelper
         $allow = false;
         $member = User::find($id);
 
-        if ($role == 'admin'
-            || $role == 'boss' && Auth::user()->id == $member->boss_id
-            || $role == 'employee' && Auth::user()->id == $id) {
+        if ($role == ADMIN
+            || $role == BOSS && Auth::user()->id == $member->boss_id
+            || $role == EMPLOYEE && Auth::user()->id == $id) {
             $allow = true;
         }
 
         return $allow;
+    }
+
+    /**
+     * Get name of role member
+     * @param  string $role value role of user
+     * @return [string]       [name of role user]
+     */
+    public static function getNameRole($role = '')
+    {
+        switch ($role) {
+            case ADMIN:
+                $name_role = '管理者';
+                break;
+            case BOSS:
+                $name_role = 'BOSS';
+                break;
+            case EMPLOYEE:
+                $name_role = '従業員';
+                break;
+            default:
+                $name_role = '';
+                break;
+            }
+
+        return $name_role;
     }
 }

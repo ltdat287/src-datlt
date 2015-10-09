@@ -7,6 +7,6 @@ define('VP_DATE_LIMIT_YEAR', 10);
 define('VP_EMAIL_DEFAULT', 'admin@localhost');
 
 //Define role of user
-define('ADMIN', '管理者');
-define('EMPLOYEE', '従業員');
-define('BOSS', 'BOSS');
+define('ADMIN', '1');
+define('BOSS', '2');
+define('EMPLOYEE', '3');
